@@ -294,17 +294,17 @@ p = Turtle()
 
 # These are the parameters of the playing field:
 # These tuples contain the contents of each cell. None is an empty cell, True is a cell with a cross, and False is a cell with a circle.
-row_1       = (None, None, None)
-row_2       = (None, None, None)
-row_3       = (None, None, None)
-x_coords    = (-200,    0,  200) # all possible X-coordinates of the cell. (The coordinate of each cell is a point in its center)
-y_coords    = ( 200,    0, -200) # all possible Y-coordinates of the cell.
+row_1        = (None, None, None)
+row_2        = (None, None, None)
+row_3        = (None, None, None)
+x_coords     = (-200,    0,  200) # all possible X-coordinates of the cell. (The coordinate of each cell is a point in its center)
+y_coords     = ( 200,    0, -200) # all possible Y-coordinates of the cell.
 combinations = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)) # Here all combinations at which 3 figures become in one line are contained.
-is_circle   = True  # If set to False, the function draws a cross, and if set to True, a circle.
-game_mode   = None  # If the value is None, then it is a game mode with a friend, if the value is False, then it is a game mode against a bot.
-game_end    = False # This variable indicates to the bot that the three pieces are already in a line and the game is over so that he does not try to move on.
-first_entry = False # This variable indicates who walks first when playing with the bot. If set to True, then the player goes first, and if set to False, then the bot.
-bot_shape   = True  # This is an helper variable that indicates which figure the player and the bot are walking. Since crosses always go first, if the player chooses to walk first, he will walk crosses, and the bot will walk zeros and vice versa.
+is_circle    = True  # If set to False, the function draws a cross, and if set to True, a circle.
+game_mode    = None  # If the value is None, then it is a game mode with a friend, if the value is False, then it is a game mode against a bot.
+game_end     = False # This variable indicates to the bot that the three pieces are already in a line and the game is over so that he does not try to move on.
+first_entry  = False # This variable indicates who walks first when playing with the bot. If set to True, then the player goes first, and if set to False, then the bot.
+bot_shape    = True  # This is an helper variable that indicates which figure the player and the bot are walking. Since crosses always go first, if the player chooses to walk first, he will walk crosses, and the bot will walk zeros and vice versa.
 
 before_game()
 
