@@ -2,13 +2,8 @@ from random import randint as rand
 from turtle import Turtle, Screen
 from time import sleep
 
-# Це суперклас усіх кнопок. Він задає характеристики усім кнопкам, а функція __init__() дає змогу задавати ці характеристики під час створення нового об'єкта:
+# This is a superclass of all buttons. It sets characteristics for all buttons, and the __init __() method allows you to set these characteristics when creating a new object:
 class Button:
-	length = 100
-	width  = 40
-	x_cor  = 0
-	y_cor  = 0
-	text   = ""
 	def __init__(self, x, y, l=100, w=40, t="Exit"):
 		self.length = l
 		self.width  = w
@@ -16,7 +11,7 @@ class Button:
 		self.y_cor  = y
 		self.text   = t
 
-# Це підклас класу Button. Він має метод, який малює прямокутні кнопки, спираючись на їхні параметри:
+# This is a subclass of the Button class. It has a method that draws rectangular buttons based on their parameters:
 class RectangleButton(Button):
 	def paint_button(self, size=27, color="black", text_color="white"):
 		p.pencolor(color)
@@ -35,17 +30,17 @@ class RectangleButton(Button):
 		p.pencolor(text_color)
 		p.write(self.text, move = False, align="center", font = ("Arial", size, "normal"))
 
-# Це клас для створення кнопки виходу з гри. Вона прямокутна, тому наслідується від класу RectangleButton і має метод, що визначає, коли гравець натиснув на кнопку і закриває гру:
+# This is a class for creating an exit button. It is rectangular, so it inherits from the RectangleButton class and has a method that determines when a player clicks a button and closes the game:
 class ExitButton(RectangleButton):
-	# Цей метод закриває гру лише тоді, коли гравець натискає у будь-якому місці, що знаходиться у середині між 4 кутами кнопки:
+	# This method closes the game only when the player presses anywhere in the middle between the 4 corners of the button:
 	def on_button_click(self, x, y):
 		if (x > self.x_cor and y > self.y_cor) and (x < self.x_cor + self.length and y < self.y_cor + self.width):
 			window.bye()
 
-# Це клас для створення кнопки, що перезапускає гру. Вона кругла, тому НЕ наслідується від класу RectangleButton і має метод, що визначає, коли гравець натиснув на кнопку і перезапускає гру. І ще має метод, що малює кнопку:
+# This is a class for creating a button that restarts the game. It is round, so it is NOT inherited from the RectangleButton class and has a method that determines when a player presses a button and restarts the game. And it also has a method that draws a button:
 class ResetButton(Button):
 	diameter = 55
-	# Цей метод малює круглу кнопку перезапуску у заданих координатах із заданим діаметром:
+	# This method draws a round restart button in the specified coordinates with the specified diameter:
 	def paint_button(self):
 		p.pencolor("white")
 		p.setheading(90)
@@ -67,79 +62,34 @@ class ResetButton(Button):
 		p.right(270)
 		p.forward(self.diameter/7)
 
-	# Це спеціальний метод, який перезапускає гру лише тоді, коли гравець натискає у будь-якому місці, що знаходиться між центром кнопки і її краєм. Він визначає квадрат відстані між центром кола і точкою, куди натиснув гравець, і якщо він менший за квадрат радіуса, то це означає, що гравець натиснув на кнопку(P.S. Мене геометрія і тут дістала...):
+	# This is a special method that restarts the game only when the player presses anywhere between the center of the button and its edge. It determines the square of the distance between the center of the circle and the point where the player clicked, and if it is less than the square of the radius, it means that the player clicked on the button (P.S. I got the geometry and here ...):
 	def on_button_click(self, x, y):
 		if (x-self.x_cor)**2 + (y-self.y_cor)**2 < (self.diameter/2)**2:
 			window.clear()
 			before_game()
 
-class RelatedButtons:
-	binding_num = 0
-	is_main     = False
-	def __init__(bn, mn):
-		self.binding_num = bn
-		self.is_main     = mn
-
-class SettingsButton(RectangleButton, RelatedButtons):
-	is_selected = False
-	def on_button_click(self, x, y):
-		if (x > self.x_cor and y > self.y_cor) and (x < self.x_cor + self.length and y < self.y_cor + self.width):
-			self.is_selected = not self.is_selected
-			if self.is_selected == False:
-				self.paint_button()
-			else:
-				self.paint_button(color="gray")
-
-# Ця функція створює інтерфейс для вибору ігрових налаштувань перед початком гри:
+# This function is required to select game settings before starting the game:
 def before_game():
 	global game_mode, window, p, exit_button, reset_button, first_entry, bot_shape
-	gm = input("Type game mode: ")
-	if gm == '0':
-		game_mode = None
+	print("GM 1 - Playing with a friend\nGM 2 - Game against the bot")
+	gm = input("Type game mode(1/2): ")
 	if gm == '1':
-		game_mode = False
-		fentry = input("You want to have first entry?: ")
-		if fentry == "yes":
-			first_entry = True
-			bot_shape   = True
-		if fentry == "no":
-			first_entry = False
-			bot_shape   = False
+		game_mode = None
 	if gm == '2':
-		game_mode = True
-		fentry = input("You want to have first entry?: ")
+		game_mode = False
+		fentry = input("You want to have first entry?(yes/no): ")
 		if fentry == "yes":
 			first_entry = True
 			bot_shape   = True
 		if fentry == "no":
 			first_entry = False
 			bot_shape   = False
-
-	# Стартові налаштування:
-	# window.title("Tic Tac Toe")
-	# window.setup(width=0.5)
-	# window.bgcolor("white")
-	# p.hideturtle()
-	# p.pencolor("black")
-	# p.pensize(3)
-	# p.speed(0)
-
-	# gm1_button = SettingsButton(100, 0, 125, 40, "VS Bot")
-	# gm1_button.paint_button(size=25)
-
-	# gm2_button = SettingsButton(-275, 0, 175, 40, "With friend")
-	# gm2_button.paint_button(size=25)
-
-	# window.onclick(gm1_button.on_button_click, add=True)
-	# window.onclick(gm2_button.on_button_click, add=True)
-
 	start_game()
 
-# Ця функція запускає гру - створює ігрове поле та інтерфейс:
+# This function starts the game - creates a playing field and interface:
 def start_game():
-	global row_1, row_2, row_3, is_circle, game_end, entry_num, window, p
-	# del exit_button, reset_button
-	# Стартові налаштування:
+	global row_1, row_2, row_3, is_circle, game_end, window, p
+	# Startup settings:
 	window.title("Tic Tac Toe")
 	window.setup(width=0.5)
 	window.bgcolor("white")
@@ -147,7 +97,7 @@ def start_game():
 	p.pencolor("black")
 	p.pensize(3)
 	p.speed(0)
-	# Це просто гора із goto(), яка малює поле для гри(можна було б використати пару циклів і forward(), але нащо):
+	# It's just a mountain of goto () that draws a field for the game:
 	p.penup()
 	p.goto(-100, 300)
 	p.pendown()
@@ -165,38 +115,34 @@ def start_game():
 	p.goto(-300,-100)
 	p.pendown()
 	p.goto( 300,-100)
-	# Тут я просто скопіював декілька змінних, що є за межами функцій і класів у кінці програми, бо їхні значення треба скидати кожен раз, коли гра перезапускається(детально про те за що відповідає кожна змінна я написав у кінці коду):
+	# Here I just copied a few variables that are outside the functions and classes at the end of the program, because their values must be reset each time the game is restarted (in detail about what is responsible for each variable, I wrote at the end of the code):
 	row_1 = [None, None, None]
 	row_2 = [None, None, None]
 	row_3 = [None, None, None]
 	is_circle = False
 	game_end  = False
-	entry_num = 0
 
-	# Створює об'єкт - кнопку виходу з гри:
+	# Creates an object - the exit button from the game:
 	exit_button = ExitButton(-150, 350)
-	# Створює об'єкт - кнопку перезапуску гри:
+	# Creates an object - the game restart button:
 	reset_button = ResetButton(100, 370)
 
-	# Малює кнопки:
+	# Draws buttons:
 	exit_button.paint_button()
 	reset_button.paint_button()
 
-	# Тут, якщо при грі з ботом гравець не захотів ходити першим, бот одразу зробить свій хід:
+	# Here, if the player did not want to go first when playing with the bot, the bot will immediately make its move:
 	if game_mode == False and first_entry == False:
 		stupid_bot_AI(row_1 + row_2 + row_3)
 		print(row_1, row_2, row_3, game_end)
-	if game_mode == True  and first_entry == False:
-		smart_bot_AI_1block(row_1 + row_2 + row_3)
-		print(row_1, row_2, row_3, game_end)
 
-	# Передає значення функії on_click(), яка визначає, на яку клітинку натиснув гравець:
+	# Passes the value of the on_click () method, which determines which cell the player clicked on:
 	window.onclick(on_click, add=True)
-	# Передає значення методу on_button_click() і добавляє нову прив'язку:
+	# Passes the value of the on_button_click () method and adds a new binding:
 	window.onclick(exit_button.on_button_click, add=True)
 	window.onclick(reset_button.on_button_click, add=True)
 
-# Ця функція є штучним інтелектом "тупого" бота(тобто це бот, який ставить хрестик або нулик у будь-яку пусту клітинку):
+# This function is an artificial intelligence of a "stupid" bot (ie it is a bot that puts a cross or a zero in any empty cell):
 def stupid_bot_AI(game_area):
 	global is_circle
 	is_circle = bot_shape
@@ -211,191 +157,7 @@ def stupid_bot_AI(game_area):
 				filler(entry-6, 2)
 			break
 
-# Ці дві функції є горами із конструкцій if: else: , тобто штучним інтелектом розумного бота(це бот, який думає куди ставити хрестик або нулик). Його штучний інтелект поділяється на 3 блоки: перші два блоки відповідають за атаку і забезпечення перемоги, а третій за захист і зниження імовірності програшу:
-# Цей блок відаовідає за перші декілька ходів бота. Він ходить по схемі, яка зменшує імовірність програшу бота майже до нуля:
-def smart_bot_AI_1block(game_area):
-	global is_circle, entry_num
-	is_circle = bot_shape
-	# Я вирішив зробити цього бота достатньо, але не занадто розумним, щоб більша частина партій проти нього завершувалася нічією. Тому, якщо він ходить першим, то завжди ставить хрестик у центр або в будь-який кут ігрового поля, бо це найвигідніша позиція. В такому випадку грати проти цього бота набагато складніше і імовірність того, що переможе бот теж висока.
-	if first_entry == False:
-		if entry_num == 0:
-			s_entry = rand(0, 1)
-			# Тут бот ставить хрестик у центр ігрового поля:
-			if s_entry == 0:
-				filler(1, 1)
-			else:
-				# Тут бот ставить хрестик у будь-який з чотирьх кутів. 1 це верхній лівий кут, 2 це верхній правий і т.д.(про масштабування думати вже пізно... Ну головне щоб працювало):
-				s_entry = rand(1, 4)
-				if s_entry == 1:
-					filler(0, 0)
-				if s_entry == 2:
-					filler(2, 0)
-				if s_entry == 3:
-					filler(0, 2)
-				if s_entry == 4:
-					filler(2, 2)
-		if game_area[0] == False or game_area[2] == False or game_area[6] == False or game_area[8] == False:
-			if game_area[1] == True or game_area[3] == True or game_area[5] == True or game_area[7] == True:
-				if game_area[0] == False and game_area[3] == True:
-					if entry_num == 1:
-						filler(1, 1)
-					if entry_num == 2:
-						smart_bot_AI_2block()
-						if game_end == False and game_area[2] == None:
-							filler(2, 0)
-
-			# Тут, якщо бот першим ходом поставив хрестик в один із 4 кутів і гравець також поставив нулик в один із 3 кутів, що лишились, то бот поставить хрестик у будь-який із 2 кутів, що лишилися, бо це найвигідніший хід:
-			if game_area[0] == True or game_area[2] == True or game_area[6] == True or game_area[8] == True:
-				if entry_num == 1:
-					if game_area[4] == None:
-						while True:
-							s_entry = rand(1, 4)
-							if s_entry == 1 and game_area[0] == None:
-								filler(0, 0)
-								break
-							elif s_entry == 2 and game_area[2] == None:
-								filler(2, 0)
-								break
-							elif s_entry == 3 and game_area[6] == None:
-								filler(0, 2)
-								break
-							elif s_entry == 4 and game_area[8] == None:
-								filler(2, 2)
-								break
-				if entry_num == 2:
-					smart_bot_AI_2block()
-					if game_end == False:
-						while True:
-							s_entry = rand(1, 4)
-							if s_entry == 1 and game_area[0] == None:
-								filler(0, 0)
-								break
-							elif s_entry == 2 and game_area[2] == None:
-								filler(2, 0)
-								break
-							elif s_entry == 3 and game_area[6] == None:
-								filler(0, 2)
-								break
-							elif s_entry == 4 and game_area[8] == None:
-								filler(2, 2)
-								break
-				if entry_num == 3 and game_end == False:
-					smart_bot_AI_2block()
-			# Тут, якщо бот першим ходом поставив хрестик в один із 4 кутів, а гравець поставив нулик в центр ігрового поля, то бот поставить хрестик у кут, що знаходиться навпроти по діагоналі від того кута, що він уже поставив, бо це найвигідніший хід:
-			if game_area[4] == True:
-				if entry_num == 1:
-					if game_area[4] == True:
-						if game_area[0] == False:
-							filler(2, 2)
-						if game_area[2] == False:
-							filler(0, 2)
-						if game_area[6] == False:
-							filler(2, 0)
-						if game_area[8] == False:
-							filler(0, 0)
-				if entry_num == 2:
-					if game_area[0] == True or game_area[2] == True or game_area[6] == True or game_area[8] == True:
-						if game_end == False:
-							while True:
-								s_entry = rand(1, 4)
-								if s_entry == 1 and game_area[0] == None:
-									filler(0, 0)
-									break
-								elif s_entry == 2 and game_area[2] == None:
-									filler(2, 0)
-									break
-								elif s_entry == 3 and game_area[6] == None:
-									filler(0, 2)
-									break
-								elif s_entry == 4 and game_area[8] == None:
-									filler(2, 2)
-									break
-				if entry_num == 3 and game_end == False:
-					smart_bot_AI_2block()
-
-	entry_num += 1
-
-# Цей блок забезпечує перемогу бота. Він є чимось схожим на функцію game_win(), що є трохи далі у коді. Кожен раз, коли цей блок запускається, він знаходить 2 хрестики(або нулики, якщо бот ходить другим), що стоять на одній лінії, і перевіряє чи можна до них поставити 3 хрестик і забезпечити перемогу бота:
-def smart_bot_AI_2block():
-	global is_circle
-	is_circle = bot_shape
-	if game_end == False:
-		for i in range(3):
-			if (row_2[i]   == row_3[i] == is_circle) and row_1[i] == None:
-				filler(i, 0)
-			elif (row_1[i] == row_3[i] == is_circle) and row_2[i] == None:
-				filler(i, 1)
-			elif (row_1[i] == row_2[i] == is_circle) and row_3[i] == None:
-				filler(i, 2)
-			elif i == 2:
-				if (row_1[1]   == row_1[2] == is_circle) and row_1[0] == None:
-					filler(0, 0)
-				elif (row_1[0] == row_1[2] == is_circle) and row_1[1] == None:
-					filler(1, 0)
-				elif (row_1[0] == row_1[1] == is_circle) and row_1[2] == None:
-					filler(2, 0)
-
-				elif (row_2[1] == row_2[2] == is_circle) and row_2[0] == None:
-					filler(0, 1)
-				elif (row_2[0] == row_2[2] == is_circle) and row_2[1] == None:
-					filler(1, 1)
-				elif (row_2[0] == row_2[1] == is_circle) and row_2[2] == None:
-					filler(2, 1)
-
-				elif (row_3[1] == row_3[2] == is_circle) and row_3[0] == None:
-					filler(0, 2)
-				elif (row_3[0] == row_3[2] == is_circle) and row_3[1] == None:
-					filler(1, 2)
-				elif (row_3[0] == row_3[1] == is_circle) and row_3[2] == None:
-					filler(2, 2)
-				else:
-					if ((row_1[0] == row_3[2] == is_circle) or (row_1[2] == row_3[0] == is_circle)) and row_2[1] == None:
-						filler(1, 1)
-	game_win(row_1 + row_2 + row_3)
-
-# Цей блок не дає гравцю виграти. Він є чимось схожим на другий блок. Кожен раз, коли цей блок запускається, він знаходить 2 нулики(або хрестики, якщо гравець ходить першим), що стоять на одній лінії, і якщо у цій лінії є пуста клітинка(туди може сходити гравець), він ставить туди хрестик, щоб перекрити її:
-def smart_bot_AI_3block():
-	global is_circle
-	is_circle = bot_shape
-	if game_end == False:
-		# for i in range(3):
-		# 	if (row_2[i]   == row_3[i] != is_circle) and row_1[i] == None:
-		# 		filler(i, 0)
-		# 	elif (row_1[i] == row_3[i] != is_circle) and row_2[i] == None:
-		# 		filler(i, 1)
-		# 	elif (row_1[i] == row_2[i] != is_circle) and row_3[i] == None:
-		# 		filler(i, 2)
-		# 	elif i == 2:
-		# 		if (row_1[1]   == row_1[2] != is_circle) and row_1[0] == None:
-		# 			filler(0, 0)
-		# 		elif (row_1[0] == row_1[2] != is_circle) and row_1[1] == None:
-		# 			filler(1, 0)
-		# 		elif (row_1[0] == row_1[1] != is_circle) and row_1[2] == None:
-		# 			filler(2, 0)
-
-		# 		elif (row_2[1] == row_2[2] != is_circle) and row_2[0] == None:
-		# 			filler(0, 1)
-		# 		elif (row_2[0] == row_2[2] != is_circle) and row_2[1] == None:
-		# 			filler(1, 1)
-		# 		elif (row_2[0] == row_2[1] != is_circle) and row_2[2] == None:
-		# 			filler(2, 1)
-
-		# 		elif (row_3[1] == row_3[2] != is_circle) and row_3[0] == None:
-		# 			filler(0, 2)
-		# 		elif (row_3[0] == row_3[2] != is_circle) and row_3[1] == None:
-		# 			filler(1, 2)
-		# 		elif (row_3[0] == row_3[1] != is_circle) and row_3[2] == None:
-		# 			filler(2, 2)
-		# 		else:
-		# 			if ((row_1[0] == row_3[2] != is_circle) or (row_1[2] == row_3[0] != is_circle)) and row_2[1] == None:
-		# 				filler(1, 1)
-		combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-		for line in combinations:
-			if game_area[line[0]] == game_area[line[1]] == game_area[line[2]] == is_circle:
-				game_end = True
-	game_win(row_1 + row_2 + row_3)
-
-# Функція, що малює хрестики або нулики у потрібному місці:
+# Function that draws crosses or zeros in the right place:
 def tic_tac_toe(x, y):
 	p.penup()
 	p.goto(x, y)
@@ -416,7 +178,7 @@ def tic_tac_toe(x, y):
 		p.pendown()
 		p.circle(75, None, 700)
 
-# Ця функція малює риску вздовж 3 фігур у потрібному місці:
+# This function draws a line along 3 shapes in the right place:
 def paint_line(p1, p2):
 	p.pencolor("black")
 	p.pensize(25)
@@ -427,7 +189,7 @@ def paint_line(p1, p2):
 	p.penup()
 	sleep(1)
 
-#Ця функція визначає перемогу у грі і малює риску вздовж 3 фігур, що стали в одну лінію.(Я не сильно парився з алгоритмами і просто записав більшість комбінацій в if: (elif): else: . Можна якось покращити код так, щоб усе працювало навіть на ігровому полі розміром більше 3x3, але нащо тратити на це час):
+# This function determines the victory in the game and draws a line along 3 figures that are in one line:
 def game_win(game_area):
 	global game_end
 	for i in range(3):
@@ -452,32 +214,31 @@ def game_win(game_area):
 				end_game("Circles")
 			else:
 				end_game("Criss-crosses")
-	# Тут функція оголошує нічию (нічия відбувається тоді, коли усі клітинки вже заповнені, а 3 фігури так і не стали в ряд. Гру завершено. Переможців немає).
+	# Here the function declares a draw (a draw occurs when all the cells are already filled, and 3 figures have not been in a row. The game is over. There are no winners):
 	if None not in game_area and game_end == False:
 		game_end = True
 		end_game("Draw")
 
-# Ця функція оголошує переможця і створює інтерфейс після завершення гри:
+# This function announces the winner:
 def end_game(winner):
 	if winner == "Draw":
-		print("Нічия!")
+		print("Tie!")
 		sleep(1)
-		window.bye()
 	else:
 		if game_mode == None:
 			if winner == "Circles":
-				print("Нулики перемогли!")
+				print("Circles won!")
 			if winner == "Criss-crosses":
-				print("Хрестики перемогли!")
-			window.bye()
-		if game_mode == False or game_mode == True:
+				print("Crosses won!")
+		else:
 			if bot_shape == is_circle:
-				print("Бот переміг!")
+				print("The bot won!")
 			else:
-				print("Ти переміг!")
-			window.bye()
+				print("You won!")
+	sleep(3)
+	window.bye()
 
-# Це допоміжна функція. Вона заповнює вміст кожної клітинки
+# This is a helper function. It fills the contents of each cell:
 def filler(column, row):
 	tic_tac_toe(x_coords[column], y_coords[row])
 	if row == 0:
@@ -487,7 +248,7 @@ def filler(column, row):
 	if row == 2:
 		row_3[column] = is_circle
 
-# Ця функція разом з window.onclick() зчитує, на яку клітинку натискає гравець і задає цій клітинці значення(може тут можна щось спростити, але я поки не придумав як, тому хай буде такий код. Головне щоб працювало):
+# This function, together with window.onclick (), reads which cell the player clicks on and sets this cell to:
 def on_click(x, y):
 	global is_circle, game_mode
 
@@ -502,7 +263,7 @@ def on_click(x, y):
 		index = 2
 	else:
 		index = None
-	none_on_click = False # Це допоміжна змінна, яка потрібна для того, щоб бот робив свій хід тільки після того, коли гравець натиснув на пусту клітинку і заповнив її.
+	none_on_click = False # This is an helper variable that is required for the bot to make its move only after the player clicks an empty cell and fills it.
 	if index != None:
 		if y > 100 and  y <  300:
 			if row_1[index] != True and row_1[index] != False:
@@ -517,43 +278,34 @@ def on_click(x, y):
 				filler(index, 2)
 				none_on_click = True
 		game_win(row_1 + row_2 + row_3)
-		print(row_1, row_2, row_3, game_end)
 
-	# Тут якщо установлено режим гри з другом, то кожен раз, коли один з гравців натискає на клітинку значення is_circle змінюється на протилежне(тобто хрестик міняється на нулик або навпаки):
+	# Here, if the game mode is set with a friend, then every time one of the players clicks on the cell, the value of is_circle changes to the opposite (ie the cross changes to zero or vice versa):
 	if game_mode == None and none_on_click == True:
 		if (x > -300 and y < 300) and (x < 300 and y >-300):
 			is_circle = not is_circle
-	# Тут якщо установлено режим гри проти бота, то кожен раз, коли гравець робить свій хід, запускається бот, який одразу робить свій хід:
+	# Here, if the game mode is set against the bot, then every time the player makes his move, the bot is launched, which immediately makes its move:
 	if game_mode == False and none_on_click == True and game_end == False:
 		stupid_bot_AI(row_1 + row_2 + row_3)
 		game_win(row_1 + row_2 + row_3)
-		print(row_1, row_2, row_3, game_end)
-	if game_mode == True  and none_on_click == True and game_end == False:
-		smart_bot_AI_1block(row_1 + row_2 + row_3)
-		# game_win()
-		print(row_1, row_2, row_3, game_end)
 
-# Створює об'єкт - вікно і черепаха:
+# Creates an object - a window and a turtle:
 window = Screen()
 p = Turtle()
 
-# Це параметри ігрового поля:
-# Ці списки зберігають вміст кожної клітинки. None - це пуста клітинка, True - це клітинка з хрестиком, а False - це клітинка з кружечком.
-# Нульовий індекс це ліва клітинка кожного рядка(зробив так, бо, на жаль, в Python, якщо створити масив, створений із масивів, то значення кожному елементу масиву, що є у цьому масиві, не можна одразу задати за допомогою подвійного індексу(row[i,j]) як в інших мовах програмування і треба робити лишні маніпуляції в коді).
-row_1       = [None, None, None]
-row_2       = [None, None, None]
-row_3       = [None, None, None]
-x_coords    = [-200,    0,  200] # усі можливі X-кординати клітинки.(координата кожної клітинка це точка в її центрі)
-y_coords    = [ 200,    0, -200] # усі можливі Y-кординати клітинки.
-combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]] # Тут зберігаються усі комбінації, при яких 3 фігури стають в одну лінію.
-is_circle   = True  # Вказує функції, що потрібно малювати і вставляти у список. Якщо значення False, то функція малює хрестик, а якщо значення True - кружечок.
-game_mode   = None  # Ця змінна вказує функції режим гри. Якщо значення None, то це режим гри з другом, якщо значення False, то це режим гри проти "тупого" бота, а якщо значення True, то це режим гри проти "розумного" бота.
-game_end    = False # Ця змінна вказує боту, що три фігури уже стали в ряд і гру завершено, щоб він не намагався ходити далі.
-first_entry = False # Ця змінна вказує хто ходить першим при грі з ботом. Якщо значення True, то першим ходить гравець, а якщо значення False, то - бот.
-bot_shape   = True  # Це допоміжна змінна, яка вказує якою фігурою ходить гравець і бот. Оскільки хрестики завжди ходять першими, то якщо гравець вибрав ходити першим, то він буде ходити хрестиками, а бот буде ходити нуликами і навпаки(прийшлося зробити таку змінну, бо було багато багів з тим, що бот ходив то хрестиком то нуликом, а мав ходити однією і тією ж фігурою. Напевно через те що я з самого початку неправильно це реалізував. Але ця змінна виправляє такі баги)
-entry_num   = 0     # Ця змінна вказує розумному боту скільки він уже зробив ходів
+# These are the parameters of the playing field:
+# These tuples store the contents of each cell. None is an empty cell, True is a cell with a cross, and False is a cell with a circle.
+row_1       = (None, None, None)
+row_2       = (None, None, None)
+row_3       = (None, None, None)
+x_coords    = (-200,    0,  200) # all possible X-coordinates of the cell. (The coordinate of each cell is a point in its center)
+y_coords    = ( 200,    0, -200) # all possible Y-coordinates of the cell.
+combinations = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6)) # Here all combinations at which 3 figures become in one line are stored.
+is_circle   = True  # If set to False, the function draws a cross, and if set to True, a circle.
+game_mode   = None  # If the value is None, then it is a game mode with a friend, if the value is False, then it is a game mode against a bot.
+game_end    = False # This variable indicates to the bot that the three pieces are already in a line and the game is over so that he does not try to move on.
+first_entry = False # This variable indicates who walks first when playing with the bot. If set to True, then the player goes first, and if set to False, then the bot.
+bot_shape   = True  # This is an helper variable that indicates which figure the player and the bot are walking. Since crosses always go first, if the player chooses to walk first, he will walk crosses, and the bot will walk zeros and vice versa.
 
 before_game()
 
-# Цей метод потрібен для того, щоб ігрове вікно не закривалось одразу після запуску:
 window.mainloop()
