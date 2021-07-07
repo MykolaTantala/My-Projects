@@ -1,30 +1,28 @@
-"""Snake game relize version 1.7
+"""Snake game release version 1.7
 
-Ну я написав змійку. Цього разу я майже не писав коментарів. Думаю цього докстрінгу вистачить.
-Насправді код достатньо простий і займає лише 98 рядків, не враховуючи модуль interface.py.
-Хоча релізній версії далеко до тої чистоти коду, яка була при першій робочій версії.
-Тоді код займав лише 70 рядків. Ну але як завжди маленькі майже незамітні доповнення займають більше коду ніж основна логіка програми.
-Хоча я зробив не усе, що задумував, інакше було б ще більше рядків коду.
+Well, I wrote a snake. This time I almost did not write comments. I think this docstring will be enough.
+In fact, the code is quite simple and takes only 98 lines, not including the interface.py module.
+Although the release version is far from the purity of the code that was in the first working version.
+At that time, the code occupied only 70 lines. Well, as always, small almost imperceptible additions take up more code than the basic logic of the program.
+Although I didn't do everything I set out to do, otherwise there would be even more lines of code.
 
-Щодо того як тут усе влаштовано, то я використав ООП. Ну насправді можна було обійтися без нього і код був би коротший,
-але ООП - це сила, тому хай буде. Є три класи: Голова змії, тіло змії і сама змія.
-Ще був клас, який відповідав за створення яблочок на ігровому полі, але потім я замінив його на функцію create_apple().
+As for how everything is arranged here, I used OOP. Well, in fact, it could do without it and the code would be shorter,
+but OOP is a force, so let it be. There are three classes: the head of the snake, the body of the snake and the snake itself.
+There was another class that was responsible for creating apples on the board, but then I replaced it with the create_apple() function.
 
-Сама змія програмно представляє із себе список, перший елемент якого є головою, а усе інше хвостом. Ну тут все зрозуміло.
-На рахунок того як рухається змія, то я не використовував метод Canvas.move(), щоб переміщати змію по ігровому полю.
-Замість цього я зробив усе по принципу, який придумали наші діди на початку кайнозойської ери, коли програмували першу Nokia.
-Хвіст видаляється - голова прибавляється. В результаті з'являється ілюзія того, що змійка рухається.
-Написати таку логіку було дуже просто, бо я колись вже робив гру змійка ще на Scratch.
+The snake itself is a list, the first element of which is the head, and everything else is the tail. Well, everything is clear here.
+As for how the snake moves, I did not use the Canvas.move() method to move the snake around the game field.
+Instead, I did everything according to the principle that our grandfathers came up with at the beginning of the Cenozoic era, when they programmed the first Nokia.
+The tail is removed - the head is added. The result is the illusion that the snake is moving.
+It was very easy to write such logic, because I used to make a snake game on Scratch.
 
-Змійка змінює напрям свого руху з допомогою методу change_dir(). І тут я мушу звернути увагу на існування БАГУ.
-Він існує через те, що розробники tkinter'а не продумали цей момент і tkinter не має простого рішення цій проблемі.
-Якщо коротко, то якщо, наприклад, змійка рухається вверх і в правильний момент в інтервалі часу між викликом методу after() і викликом методу move(),
-одночасно або з дуже маленьким проміжком часу натиснути на клавіші стрілка вниз і стрілка вправо, то змійка розвернеться і поповзе сама у себе. 
-В такому випадку вона укусить сама себе, що призводить до програшу. Якби можна було заблокувати можливість одночасно двом клавішам запускати функції, то такого багу б не було.
-Я все таки написав рішення для цього багу, але воно мені не сподобалося, бо через нього змійкою ставало важче керувати.
-Може той код можна, якось удосконалити, щоб він не сковував рух змійки, але я поки що вросто вирізав його і залишив цей баг.
-
-P.S Про усе, що є в цій грі я написав у README.txt"""
+The snake changes the direction of its movement using the change_dir() method. And here I must pay attention to the existence of BUG.
+It exists because the developers of tkinter did not think about this point and tkinter does not have a simple solution to this problem.
+In short, if, for example, the snake moves up and at the right time in the time interval between calling the after() method and calling the move() method,
+Simultaneously or with a very short period of time press the down arrow key and the right arrow, the snake will turn around and crawl into itself.
+In this case, it will bite itself, which leads to loss. If I could block the ability to run two keys at the same time, there would be no such bug.
+I still wrote a solution for this bug, but I didn't like it, because it made the snake harder to control.
+Maybe that code can be improved somehow so that it does not restrict the movement of the snake, but for now I just cut it out and left this bug."""
 
 from random    import randint as rand
 from tkinter   import *
