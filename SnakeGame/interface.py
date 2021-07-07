@@ -4,11 +4,11 @@ if __name__ == '__main__':
 	print("To start the Snake Game you need to run the file 'snake.py'")
 	exit()
 
-"""Це "інтерфейс". Я не хотів прописувати його в основному коді, тому написав цей модуль.
-Ну його перша версія була просто фреймом, який зберігав статистику.
-Спочатку я задумував для нього більше функцій ніж просто містити 2 мітки, тому перетворив його в клас.
-Але в результаті я багато чого не доробив, а потім вирізав, а всередині цього інтерфейсу лишив просто 2 мітки.
-Одна показує ігрові очки, інша ігровий рекорд"""
+"""This is the "interface". I didn't want to prescribe it in the main code, so I wrote this module.
+Well, its first version was just a frame that kept statistics.
+At first, I designed more functions for it than just containing 2 labels, so I turned it into a class.
+But as a result, I did not finish much, and then cut, and inside this interface left just 2 labels.
+One shows game points, the other a game record"""
 class Interface:
 	def __init__(self, win):
 		self.make_interface(win)
