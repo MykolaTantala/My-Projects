@@ -1,5 +1,5 @@
 BUG WARNING! It is better not to press several keys that control the snake at the same time.
-(More details about the bug are written in the documentation in the snake.py file in line 18 and beyond)
+(More details about the bug are written in the documentation in the snake.py file in line 19 and beyond)
 
 SNAKE CONTROL:
 - keys 'wasd' or using the arrows on the keyboard
