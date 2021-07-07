@@ -1,21 +1,21 @@
-ПОПЕРЕДЖЕННЯ ПРО БАГ! Краще одночасно не натискати декілька клавіш, що керують змійкою.
-(детальніше про баг написано у документації в файлі snake.py у 18 рядку і далі)
+BUG WARNING! It is better not to press several keys that control the snake at the same time.
+(More details about the bug are written in the documentation in the snake.py file in line 18 and beyond)
 
-КЕРУВАННЯ ЗМІЙКОЮ:
-- клавіші 'wasd' або з допомогою стрілок на клавіатурі
+SNAKE CONTROL:
+- keys 'wasd' or using the arrows on the keyboard
 
-Геймплей стандартний: на ігровому полі в рандомному місці спавняться яблучка, якщо їх з'їсти то змійка росте, а також збільшуються очки.
-Червоні яблучка збільшують змійку на 1 клітинку і збільшують очки на 1.
-Але також є золоті яблучка, які з'являються разом з червоним з імовірністю 1/10.
-Вони з'більшують очки на 10, а змійку на 3 клітинки.
-Але вони зникають через деякий час після того, як з'являються, тому їх ще треба встигнути з'їсти.
+The gameplay is standard: apples appear on the playing field in a random place. If you eat them, the snake grows, and score increase.
+Red apples increase the snake by 1 cell and increase the score by 1.
+But there are also gold apples that appear along with red with a probability of 1/10.
+They increase the score by 10 and the snake by 3 cells.
+But they disappear some time after they appear, so you may not have time to eat them.
 
-Змійка рухається по клітинках у чотирьох напрямах.
-Якщо вона виходить за край поля, то переноситься на протилежний край.
-Кожен раз коли змійка з'їдає яблучка, її швидкість збільшується доки не досягає максимальної.
-Якщо змійка вкусить сама себе, то гра зупиняється і виводиться ігрова статистика.
+The snake moves through the cells in four directions.
+If it goes beyond the edge of the field, it is transferred to the opposite edge.
+Each time a snake eats apples, its speed increases until it reaches its maximum.
+If the snake bites itself, the game stops and game statistics are displayed.
 
-Очки та ігровий рекорд відображаються зверху.
-Я добавив зберігання ігрового рекорду.
-Якщо гравець набере більше очків ніж його попередній рекорд і програє, то цей рекорд збережеться і при наступному запуску буде відображатися зверху.
-Також якщо під час гри гравець поб'є свій рекорд, то після завершення гри на екрані буде напис "New Record!"
+Points and game record are displayed at the top.
+I added game record saving.
+If a player scores more points than his previous record and loses, this record will be saved and will be displayed at the top the next time he starts.
+Also, if during the game the player breaks his record, then after the game on the screen will be written "New Record!"
