@@ -36,7 +36,7 @@ c.pack()
 
 class SnakeHead:
 	def __init__(self, dir, x, y):
-		tp_coords = {(500, y  ):(  0, y  , 'right'), # У цьому словнику зберігаються усі координати потрібні, для того щоб, коли змійка доходить до краю ігрового поля, вона переносилася на протилежний край.
+		tp_coords = {(500, y  ):(  0, y  , 'right'), # This dictionary contains all the coordinates needed so that when the snake reaches the edge of the playing field, it is transferred to the opposite edge.
 						 (-10, y  ):(490, y  , 'left' ), #
 						 (x  , -10):(x  , 490, 'up'   ), #
 						 (x  , 500):(x  , 0  , 'down' )} #
@@ -68,7 +68,7 @@ class Snake:
 	snake, length, speed, call_id = [SnakeHead('left', 240, 240), SnakeBody(250, 240), SnakeBody(260, 240), SnakeBody(270, 240)], 4, 200, "after#0"
 	def move(self):
 		self.call_id = c.after(self.speed, self.move)
-		displacement = {'up'   :(  0,-10), # This dictionary stores all the displacements of the snake's head when moving in a certain direction. They are added to the former coordinates of the snake's head and so it moves.
+		displacement = {'up'   :(  0,-10), # This dictionary contains all the displacements of the snake's head when moving in a certain direction. They are added to the former coordinates of the snake's head and so it moves.
 							 'down' :(  0, 10), #
 							 'right':( 10, 0 ), #
 							 'left' :(-10, 0 )} #
