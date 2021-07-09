@@ -47,7 +47,7 @@ class SnakeHead:
 	def __del__(self):
 		c.delete("head")
 	def create_head(self):
-		directions = {'up'   :((self.x+2, self.y+2), (self.x+7, self.y+2)),                           # Ось це все просто малює квадратну голову з двома однопіксельними очима.
+		directions = {'up'   :((self.x+2, self.y+2), (self.x+7, self.y+2)),                           # Here it all just draws a square head with two one-pixel eyes.
 						  'down' :((self.x+2, self.y+7), (self.x+7, self.y+7)),                           #
 						  'right':((self.x+7, self.y+2), (self.x+7, self.y+7)),                           #
 						  'left' :((self.x+2, self.y+2), (self.x+2, self.y+7))}                           #
@@ -68,7 +68,7 @@ class Snake:
 	snake, length, speed, call_id = [SnakeHead('left', 240, 240), SnakeBody(250, 240), SnakeBody(260, 240), SnakeBody(270, 240)], 4, 200, "after#0"
 	def move(self):
 		self.call_id = c.after(self.speed, self.move)
-		displacement = {'up'   :(  0,-10), # У цьому словнику зберігаються усі зміщення голови змії при русі у певну сторону. Вони додаються до колишніх координат голови змійки і так вона переміщується.
+		displacement = {'up'   :(  0,-10), # This dictionary stores all the displacements of the snake's head when moving in a certain direction. They are added to the former coordinates of the snake's head and so it moves.
 							 'down' :(  0, 10), #
 							 'right':( 10, 0 ), #
 							 'left' :(-10, 0 )} #
@@ -138,6 +138,6 @@ s = Snake()
 s.move()
 create_apple()
 
-win.protocol("WM_DELETE_WINDOW", win.quit) # Цей рядок вирішує помилку зв'язану із закриттям ігрового вікна кнопкою 'x'. В tkinter'і часто бувають такі проблеми, коли вікно разом з усіма його об'єктами закривається, але деякі частини коду продовжують взаємодіяти з цими уже не існуючими об'єктами, що призводить до помилки. У моєму випадку, якщо закрити вікно, то усі об'єкти на ньому видаляються і через це запускаються їхні деструктори, що містять код пов'язаний з Canvas. Функція quit() запобігає цьому і закриває вікно без помилок.
+win.protocol("WM_DELETE_WINDOW", win.quit) # This line resolves the error associated with closing the game window with the 'x' button. In tkinter, there are often problems when a window with all its objects closes, but some parts of the code continue to interact with these non-existent objects, which leads to an error. In my case, if you close a window, all objects on it are deleted and because of this their destructors containing the code connected with Canvas are started. The quit() function prevents this and closes the window without errors.
 
 win.mainloop()
